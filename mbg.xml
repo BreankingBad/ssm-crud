@@ -12,8 +12,8 @@
 	  <property name="suppressAllComments" value="true" />
 	</commentGenerator>
 
-    <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver"
-        connectionURL="jdbc:mysql://localhost:3306/ssm_crud"
+    <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+        connectionURL="jdbc:mysql://localhost:3306/ssm_crud?verifyServerCertificate=false&amp;useSSL=true&amp;useUnicode=true&amp;characterEncoding=utf8"
         userId="root"
         password="790308446">
     </jdbcConnection>
