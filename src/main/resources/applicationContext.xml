@@ -29,6 +29,11 @@
 		<property name="mapperLocations" value="classpath:mapper/*.xml"></property>
 	</bean>
 	
+	<bean id='sqlSession'  class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory"></constructor-arg>
+		<constructor-arg name="executorType" value="BATCH"></constructor-arg>
+	</bean>
+	
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
 		<!-- 扫描所有dao接口的实现，加入到ioc容器中 -->
 		<property name="basePackage" value="com.breaking.crud.dao"></property>
