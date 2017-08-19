@@ -15,6 +15,8 @@ public interface EmployeeMapper {
     int insertSelective(Employee record);
 
     List<Employee> selectByExample(EmployeeExample example);
+    
+    List<Employee> selectByExampleWithDept(EmployeeExample example);
 
     int updateByExampleSelective(@Param("record") Employee record, @Param("example") EmployeeExample example);
 
