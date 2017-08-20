@@ -100,7 +100,7 @@
 				var empNameTd = $("<td></td>").append(item.empName);
 				var empGenderTd = $("<td></td>").append(item.gender=="M"?"男":"女");
 				var empEmailTd = $("<td></td>").append(item.email);
-				var empDepartmentTd = $("<td></td>").append(item.deptName);
+				var empDepartmentTd = $("<td></td>").append(item.department.deptName);
 				
 				var editBtn = $("<button></button>").addClass("btn btn-success btn-sm").
 				append($("<span></span>").addClass("glyphicon glyphicon-pencil")).append(" 编辑");
