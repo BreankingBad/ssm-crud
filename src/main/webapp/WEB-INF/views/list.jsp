@@ -88,11 +88,14 @@
 				    		</c:if>
 				    		
 				    </c:forEach>
-				    <li>
-				      <a href="#" aria-label="Next">
-				        <span aria-hidden="true">&raquo;</span>
-				      </a>
-				    </li>
+				    
+				    <c:if test="${pageInfo.hasNextPage}">
+					    <li>
+					      <a href="${APP_PATH}/emps?page=${page_num+1}" aria-label="Next">
+					        <span aria-hidden="true">&raquo;</span>
+					      </a>
+					    </li>
+				    </c:if>
 				    <li><a href="#">末页</a></li>
 				  </ul>
 			</nav>
