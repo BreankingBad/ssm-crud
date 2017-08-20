@@ -13,6 +13,8 @@
 
 	<plugins>
 		<plugin interceptor="com.github.pagehelper.PageInterceptor">
+			<!-- 分页合理化参数，如果页码<=0，则查询第一页 -->
+			<property name="reasonable" value="true"/>
 		</plugin>
 	</plugins>
 </configuration>
