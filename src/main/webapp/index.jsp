@@ -21,6 +21,56 @@
 </head>
 <body>
 
+<!-- 添加员工的模态框 -->
+<div class="modal fade" tabindex="-1" role="dialog" id="addEmpModal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">员工添加</h4>
+      </div>
+      <div class="modal-body">
+	      <form class="form-horizontal">
+			  <div class="form-group">
+			    <label class="col-sm-2 control-label">员工名字</label>
+			    	<div class="col-sm-10">
+			      <input type="text" name="empName" class="form-control" id="empNameInput" placeholder="员工名字">
+			    </div>
+			  </div>
+			  <div class="form-group">
+			    <label class="col-sm-2 control-label">员工邮箱</label>
+			    	<div class="col-sm-10">
+			    		<input type="text" name="email" class="form-control" id="empEmailInput" placeholder="员工邮箱">
+			    </div>
+			  </div>
+			  <div class="form-group">
+			    <label class="col-sm-2 control-label">员工性别</label>
+			    	<div class="col-sm-10">
+			    		<label class="radio-inline">
+					  <input type="radio" name="gender" id="genderMaleRadio" value="M" checked="checked"> 男
+					</label>
+					<label class="radio-inline">
+					  <input type="radio" name="gender" id="genderFeMaleRadio" value="F"> 女
+					</label>
+			    </div>
+			  </div>
+			  <div class="form-group">
+			    <label class="col-sm-2 control-label">部门</label>
+			    	<div class="col-sm-4">
+			    		<select class="form-control" name="dId">
+					</select>
+			    </div>
+			  </div>
+		</form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+        <button type="button" class="btn btn-primary">保存</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
 <div class="container">
 	  <div class="row">
 	  	 <div class="col-md-12"><h1>crud</h1></div>
@@ -28,7 +78,7 @@
 	 
 	 <div class="row">
 	  	 <div class="col-md-4 col-md-offset-8">
-	  	 	<button class="btn btn-success">新增</button>
+	  	 	<button class="btn btn-success" id="addEmpBtn">新增</button>
 	  	 	<button class="btn btn-danger">删除</button>
 	  	 </div>
 	 </div>
@@ -181,8 +231,13 @@
 				
 				$("<nav></nav>").append(pageUl)
 							 .appendTo("#page_num_area");
-			
 		}
+		
+		$("#addEmpBtn").click(function() {
+			$('#addEmpModal').modal({
+				backdrop:'static'
+			})
+		});
 	</script>
 </body>
 </html>
