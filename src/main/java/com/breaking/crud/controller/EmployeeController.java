@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.breaking.crud.bean.Employee;
 import com.breaking.crud.service.EmployeeService;
@@ -20,6 +21,18 @@ public class EmployeeController {
 	EmployeeService employeeService;
 	
 	@RequestMapping("/emps")
+	@ResponseBody
+	public PageInfo getEmps(@RequestParam(value="page",defaultValue="1")Integer page,
+			Model model) {
+		// 开始的页码，和每页的大小
+		PageHelper.startPage(page, 5);
+		List<Employee> list = employeeService.getAll();
+		
+		PageInfo pageInfo = new PageInfo(list,5);
+		return pageInfo;
+	}
+	
+/*	@RequestMapping("/emps")
 	public String getEmps(@RequestParam(value="page",defaultValue="1")Integer page,
 			Model model) {
 		// 开始的页码，和每页的大小
@@ -30,5 +43,5 @@ public class EmployeeController {
 		model.addAttribute("pageInfo", pageInfo);
 		
 		return "list";
-	}
+	}*/
 }
