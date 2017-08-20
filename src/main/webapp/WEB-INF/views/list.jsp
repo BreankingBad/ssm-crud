@@ -81,7 +81,7 @@
 				    			<li class="active"><a href="#">${page_num}</a></li>
 				    		</c:if>
 				    		<c:if test="${page_num != pageInfo.pageNum}">
-				    			<li><a href="#">${page_num}</a></li>
+				    			<li><a href="${APP_PATH}/emps?page=${page_num}">${page_num}</a></li>
 				    		</c:if>
 				    		
 				    </c:forEach>
