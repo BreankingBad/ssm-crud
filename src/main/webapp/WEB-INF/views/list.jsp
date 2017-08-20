@@ -70,7 +70,7 @@
 		<div class="col-md-6">
 			<nav aria-label="Page navigation">
 				  <ul class="pagination">
-				  <li><a href="#">首页</a></li>
+				  <li><a href="${APP_PATH}/emps?page=1">首页</a></li>
 				  	<c:if test="${pageInfo.hasPreviousPage}">
 					  	<li>
 					      <a href="${APP_PATH}/emps?page=${page_num-1}" aria-label="Previous">
@@ -96,7 +96,7 @@
 					      </a>
 					    </li>
 				    </c:if>
-				    <li><a href="#">末页</a></li>
+				    <li><a href="${APP_PATH}/emps?page=${pageInfo.pages}">末页</a></li>
 				  </ul>
 			</nav>
 		</div>
