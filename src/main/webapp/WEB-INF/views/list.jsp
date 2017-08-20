@@ -76,8 +76,14 @@
 				        <span aria-hidden="true">&laquo;</span>
 				      </a>
 				    </li>
-				    <c:forEach items="${pageInfo.navigatepageNums}" var="pageNum">
-				    		<li><a href="#">${pageNum}</a></li>
+				    <c:forEach items="${pageInfo.navigatepageNums}" var="page_num">
+				    		<c:if test="${page_num == pageInfo.pageNum}">
+				    			<li class="active"><a href="#">${page_num}</a></li>
+				    		</c:if>
+				    		<c:if test="${page_num != pageInfo.pageNum}">
+				    			<li><a href="#">${page_num}</a></li>
+				    		</c:if>
+				    		
 				    </c:forEach>
 				    <li>
 				      <a href="#" aria-label="Next">
