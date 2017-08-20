@@ -71,11 +71,14 @@
 			<nav aria-label="Page navigation">
 				  <ul class="pagination">
 				  <li><a href="#">首页</a></li>
-				    <li>
-				      <a href="#" aria-label="Previous">
-				        <span aria-hidden="true">&laquo;</span>
-				      </a>
-				    </li>
+				  	<c:if test="${pageInfo.hasPreviousPage}">
+					  	<li>
+					      <a href="${APP_PATH}/emps?page=${page_num-1}" aria-label="Previous">
+					        <span aria-hidden="true">&laquo;</span>
+					      </a>
+					    </li>
+				  	</c:if>
+
 				    <c:forEach items="${pageInfo.navigatepageNums}" var="page_num">
 				    		<c:if test="${page_num == pageInfo.pageNum}">
 				    			<li class="active"><a href="#">${page_num}</a></li>
