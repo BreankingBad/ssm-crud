@@ -65,7 +65,7 @@
 	
 	<div class="row">
 		<div class="col-md-6">
-			当前记录数：
+			当前页:${pageInfo.pageNum},总页数:${pageInfo.pages},总记录数:${pageInfo.total} 
 		</div>
 		<div class="col-md-6">
 			<nav aria-label="Page navigation">
