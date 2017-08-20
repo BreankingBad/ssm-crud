@@ -71,9 +71,13 @@
 	
 		// 页面加载后调用ajax请求得到json数据，根据json数据动态添加dom节点。
 		$(function() {
+			toPage(1);
+		});
+		
+		function toPage(pageNum) {
 			$.ajax({
 				url:"${APP_PATH}/emps",
-				data:"page=1",
+				data:"page="+pageNum,
 				type:"get",
 				success:function(result){
 				/* 	console.log(result); */
@@ -82,9 +86,12 @@
 					buildPageNum(result);
 				}
 			});
-		});
+		}
 		
 		function buildEmpsTable(result) {
+			// 先清空
+			$("#emps_table tbody").empty();
+			
 			var emps = result.data.pageInfo.list;
 			$.each(emps,function(index,item){
 				// alert(item.empName); 
@@ -111,37 +118,66 @@
 		}
 		
 		function buildPageInfo(result) {
+			// 先清空
+			$("#page_info_area").empty();
+			
 			$("#page_info_area").append("当前页:").append(result.data.pageInfo.pageNum).append(",")
 								.append("总页数:").append(result.data.pageInfo.pages).append(",")
 								.append("总记录数:").append(result.data.pageInfo.total);
 		}
 		
 		function buildPageNum(result) {
+				// 先清空
+				$("#page_num_area").empty();
 			
+				var currentPageNum = result.data.pageInfo.pageNum;
+				
 				var pageUl = $("<ul></ul>").addClass("pagination");
 				var firstPageLi = $("<li></li>").append($("<a></a>").append($("<span></span>").append("首页")).attr("href","#"));
 				var previousPageLi = $("<li></li>").append($("<a></a>").append($("<span></span>").append("&laquo;")).attr("href","#"));
 				
-				pageUl.append(firstPageLi);
+				firstPageLi.click(function() {
+					toPage(1);
+				});
+				previousPageLi.click(function() {
+					toPage(currentPageNum-1);
+				});
 				
+				pageUl.append(firstPageLi);
 				if(result.data.pageInfo.hasPreviousPage){
 					pageUl.append(previousPageLi);
+				}else {
+					firstPageLi.addClass("disabled");
 				}
+				
 				var pageNums = result.data.pageInfo.navigatepageNums;
 				$.each(pageNums,function(index,item){
 					var pageNumLi = $("<li></li>").append($("<a></a>").append($("<span></span>").append(item)).attr("href","#"));
-					if(item == result.data.pageInfo.pageNum){
+					if(item == currentPageNum){
 						pageNumLi.addClass("active");
 					}
+					pageNumLi.click(function() {
+						toPage(item);
+					});
 					pageUl.append(pageNumLi);
 				});
 				
 				var nextPageLi = $("<li></li>").append($("<a></a>").append($("<span></span>").append("&raquo;")).attr("href","#"));
 				var lastPageLi = $("<li></li>").append($("<a></a>").append($("<span></span>").append("末页")).attr("href","#"));
-				pageUl.append(nextPageLi);
+				
+				nextPageLi.click(function() {
+					toPage(currentPageNum+1);
+				});
+				lastPageLi.click(function() {
+					toPage(result.data.pageInfo.pages);
+				});
+				
 				if(result.data.pageInfo.hasNextPage){
-					pageUl.append(lastPageLi);
+					pageUl.append(nextPageLi);
+				}else {
+					lastPageLi.addClass("disabled");
 				}
+				pageUl.append(lastPageLi);
 				
 				$("<nav></nav>").append(pageUl)
 							 .appendTo("#page_num_area");
