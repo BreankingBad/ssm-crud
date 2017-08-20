@@ -57,10 +57,12 @@
 	</div>
 	
 	<div class="row">
-		<div class="col-md-6">
-			当前页:,总页数:,总记录数: 
+		<div class="col-md-6" id="page_info_area">
+ 
 		</div>
 
+		<div class="col-md-6" id="page_num_area">
+		</div>
 	</div>
 </div>
 
@@ -76,6 +78,8 @@
 				success:function(result){
 				/* 	console.log(result); */
 					buildEmpsTable(result);
+					buildPageInfo(result);
+					buildPageNum(result);
 				}
 			});
 		});
@@ -104,6 +108,44 @@
 							 .append(btnTd)
 							 .appendTo("#emps_table tbody");
 			});
+		}
+		
+		function buildPageInfo(result) {
+			$("#page_info_area").append("当前页:").append(result.data.pageInfo.pageNum).append(",")
+								.append("总页数:").append(result.data.pageInfo.pages).append(",")
+								.append("总记录数:").append(result.data.pageInfo.total);
+		}
+		
+		function buildPageNum(result) {
+			
+				var pageUl = $("<ul></ul>").addClass("pagination");
+				var firstPageLi = $("<li></li>").append($("<a></a>").append($("<span></span>").append("首页")).attr("href","#"));
+				var previousPageLi = $("<li></li>").append($("<a></a>").append($("<span></span>").append("&laquo;")).attr("href","#"));
+				
+				pageUl.append(firstPageLi);
+				
+				if(result.data.pageInfo.hasPreviousPage){
+					pageUl.append(previousPageLi);
+				}
+				var pageNums = result.data.pageInfo.navigatepageNums;
+				$.each(pageNums,function(index,item){
+					var pageNumLi = $("<li></li>").append($("<a></a>").append($("<span></span>").append(item)).attr("href","#"));
+					if(item == result.data.pageInfo.pageNum){
+						pageNumLi.addClass("active");
+					}
+					pageUl.append(pageNumLi);
+				});
+				
+				var nextPageLi = $("<li></li>").append($("<a></a>").append($("<span></span>").append("&raquo;")).attr("href","#"));
+				var lastPageLi = $("<li></li>").append($("<a></a>").append($("<span></span>").append("末页")).attr("href","#"));
+				pageUl.append(nextPageLi);
+				if(result.data.pageInfo.hasNextPage){
+					pageUl.append(lastPageLi);
+				}
+				
+				$("<nav></nav>").append(pageUl)
+							 .appendTo("#page_num_area");
+			
 		}
 	</script>
 </body>
