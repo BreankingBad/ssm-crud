@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.breaking.crud.bean.Employee;
+import com.breaking.crud.bean.ResponseBean;
 import com.breaking.crud.service.EmployeeService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -22,14 +23,14 @@ public class EmployeeController {
 	
 	@RequestMapping("/emps")
 	@ResponseBody
-	public PageInfo getEmps(@RequestParam(value="page",defaultValue="1")Integer page,
+	public ResponseBean getEmps(@RequestParam(value="page",defaultValue="1")Integer page,
 			Model model) {
 		// 开始的页码，和每页的大小
 		PageHelper.startPage(page, 5);
 		List<Employee> list = employeeService.getAll();
 		
 		PageInfo pageInfo = new PageInfo(list,5);
-		return pageInfo;
+		return ResponseBean.success().setData("pageInfo", pageInfo);
 	}
 	
 /*	@RequestMapping("/emps")
