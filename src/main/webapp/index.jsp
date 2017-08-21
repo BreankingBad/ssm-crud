@@ -30,7 +30,7 @@
         <h4 class="modal-title">员工添加</h4>
       </div>
       <div class="modal-body">
-	      <form class="form-horizontal">
+	      <form class="form-horizontal" id="addEmpForm">
 			  <div class="form-group">
 			    <label class="col-sm-2 control-label">员工名字</label>
 			    	<div class="col-sm-10">
@@ -65,7 +65,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-        <button type="button" class="btn btn-primary">保存</button>
+        <button type="button" class="btn btn-primary" id="saveEmpBtn">保存</button>
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
@@ -255,6 +255,18 @@
 				}
 			});
 		}
+		
+		$("#saveEmpBtn").click(function() {
+ 			$.ajax({
+				url:"${APP_PATH}/emp",
+				type:"POST",
+				data:$("#addEmpForm").serialize(),
+				success:function(result){
+					$("#addEmpModal").modal('hide');
+					toPage(9999999);
+				}
+			});	 
+		});
 	</script>
 </body>
 </html>
