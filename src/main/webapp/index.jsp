@@ -57,7 +57,7 @@
 			  <div class="form-group">
 			    <label class="col-sm-2 control-label">部门</label>
 			    	<div class="col-sm-4">
-			    		<select class="form-control" name="dId">
+			    		<select class="form-control" name="dId" id="departmentSelect">
 					</select>
 			    </div>
 			  </div>
@@ -234,10 +234,27 @@
 		}
 		
 		$("#addEmpBtn").click(function() {
+			
+			getDepts();
+			
 			$('#addEmpModal').modal({
 				backdrop:'static'
-			})
+			});
 		});
+		
+		function getDepts() {
+			$.ajax({
+				url:"${APP_PATH}/depts",
+				type:"get",
+				success:function(result){
+					console.log(result); 
+					$.each(result.data.depts,function(){
+						$("<option></option>").append(this.deptName).attr("value",this.deptId)
+											 .appendTo($("#departmentSelect"));
+					});
+				}
+			});
+		}
 	</script>
 </body>
 </html>
