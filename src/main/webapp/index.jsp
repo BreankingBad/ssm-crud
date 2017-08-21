@@ -35,12 +35,14 @@
 			    <label class="col-sm-2 control-label">员工名字</label>
 			    	<div class="col-sm-10">
 			      <input type="text" name="empName" class="form-control" id="empNameInput" placeholder="员工名字">
+			      <span class="help-block"></span>
 			    </div>
 			  </div>
 			  <div class="form-group">
 			    <label class="col-sm-2 control-label">员工邮箱</label>
 			    	<div class="col-sm-10">
 			    		<input type="text" name="email" class="form-control" id="empEmailInput" placeholder="员工邮箱">
+			    		<span class="help-block"></span>
 			    </div>
 			  </div>
 			  <div class="form-group">
@@ -256,16 +258,55 @@
 			});
 		}
 		
+		function checkFormValid() {
+			var nameValue = $("#empNameInput").val();
+			var nameReg = /(^[a-z0-9_-]{3,16}$)|(^[\u2E80-\u9FFF]{2,5})/;
+			if(!nameReg.test(nameValue)){
+				showCheckMsg("#empNameInput","error","用户名不合法！");
+				return false;
+			}else{
+				showCheckMsg("#empNameInput","success","");
+			}
+			
+			var emailValue = $("#empEmailInput").val();
+			var emailReg = /^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/;
+			if(!emailReg.test(emailValue)){
+				showCheckMsg("#empEmailInput","error","邮箱不合法！");
+				return false;
+			}else{
+				showCheckMsg("#empEmailInput","success","");
+			}
+			
+			return true;
+		}
+		
+		function showCheckMsg(ele,status,msg) {
+			$(ele).parent().removeClass("has-success");
+			$(ele).parent().removeClass("has-error");
+			$(ele).next("span").text("");
+			if("success"==status){
+				$(ele).parent().addClass("has-success");
+				$(ele).next("span").text(msg);
+			}else if ("error"==status) {
+				$(ele).parent().addClass("has-error");
+				$(ele).next("span").text(msg);
+			}
+			
+		}
+		
 		$("#saveEmpBtn").click(function() {
- 			$.ajax({
-				url:"${APP_PATH}/emp",
-				type:"POST",
-				data:$("#addEmpForm").serialize(),
-				success:function(result){
-					$("#addEmpModal").modal('hide');
-					toPage(9999999);
-				}
-			});	 
+			if(checkFormValid()){
+				$.ajax({
+					url:"${APP_PATH}/emp",
+					type:"POST",
+					data:$("#addEmpForm").serialize(),
+					success:function(result){
+						$("#addEmpModal").modal('hide');
+						toPage(9999999);
+					}
+				});	 
+			}
+ 
 		});
 	</script>
 </body>
