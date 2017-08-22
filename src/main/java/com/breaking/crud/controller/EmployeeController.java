@@ -42,6 +42,16 @@ public class EmployeeController {
 		return ResponseBean.success();
 	}
 	
+	@RequestMapping(value="/checkEmp",method=RequestMethod.POST)
+	@ResponseBody
+	public ResponseBean checkEmpAvailable(@RequestParam("empName")String empName) {
+		boolean available = employeeService.isEmpAvailable(empName);
+		if(available) {
+			return ResponseBean.success();
+		}else {
+			return ResponseBean.fail();
+		}
+	}
 /*	@RequestMapping("/emps")
 	public String getEmps(@RequestParam(value="page",defaultValue="1")Integer page,
 			Model model) {

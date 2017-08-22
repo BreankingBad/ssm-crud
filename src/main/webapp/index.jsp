@@ -237,6 +237,9 @@
 		
 		$("#addEmpBtn").click(function() {
 			
+			// 表单重置
+			$('#addEmpForm')[0].reset();
+			
 			getDepts();
 			
 			$('#addEmpModal').modal({
@@ -295,6 +298,10 @@
 		}
 		
 		$("#saveEmpBtn").click(function() {
+			if($("#saveEmpBtn").attr("check_result") == "error"){
+				return false;
+			}
+			
 			if(checkFormValid()){
 				$.ajax({
 					url:"${APP_PATH}/emp",
@@ -306,7 +313,24 @@
 					}
 				});	 
 			}
- 
+		});
+		
+		$("#empNameInput").change(function() {
+			var value = $("#empNameInput").val();
+			$.ajax({
+				url:"${APP_PATH}/checkEmp",
+				type:"POST",
+				data:"empName="+value,
+				success:function(result){
+					if(result.code == 100){
+						showCheckMsg("#empNameInput","success","用户名可用");
+						$("#saveEmpBtn").attr("check_result","success");
+					}else {
+						showCheckMsg("#empNameInput","error","用户名已存在！");
+						$("#saveEmpBtn").attr("check_result","error");
+					}
+				}
+			});	 
 		});
 	</script>
 </body>
