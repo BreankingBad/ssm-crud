@@ -45,11 +45,16 @@ public class EmployeeController {
 	@RequestMapping(value="/checkEmp",method=RequestMethod.POST)
 	@ResponseBody
 	public ResponseBean checkEmpAvailable(@RequestParam("empName")String empName) {
+		String nameReg = "(^[a-z0-9_-]{3,16}$)|(^[\\u2E80-\\u9FFF]{2,5})";
+		if(!empName.matches(nameReg)) {
+			return ResponseBean.fail().setMsg("用户名正则不匹配！");
+		}
+		
 		boolean available = employeeService.isEmpAvailable(empName);
 		if(available) {
 			return ResponseBean.success();
 		}else {
-			return ResponseBean.fail();
+			return ResponseBean.fail().setMsg("用户名已存在！");
 		}
 	}
 /*	@RequestMapping("/emps")

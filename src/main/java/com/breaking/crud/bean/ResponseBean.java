@@ -43,8 +43,9 @@ public class ResponseBean {
 		return msg;
 	}
 
-	public void setMsg(String msg) {
+	public ResponseBean setMsg(String msg) {
 		this.msg = msg;
+		return this;
 	}
 
 	public HashMap<String, Object> getData() {

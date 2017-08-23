@@ -238,7 +238,7 @@
 		$("#addEmpBtn").click(function() {
 			
 			// 表单重置
-			$('#addEmpForm')[0].reset();
+			resetForm('#addEmpForm');
 			
 			getDepts();
 			
@@ -247,6 +247,11 @@
 			});
 		});
 		
+		function resetForm(ele) {
+			$(ele)[0].reset();
+			$(ele).find("*").removeClass("has-error has-success");
+			$(ele).find(".help-block").text("");
+		}
 		function getDepts() {
 			$.ajax({
 				url:"${APP_PATH}/depts",
@@ -326,7 +331,7 @@
 						showCheckMsg("#empNameInput","success","用户名可用");
 						$("#saveEmpBtn").attr("check_result","success");
 					}else {
-						showCheckMsg("#empNameInput","error","用户名已存在！");
+						showCheckMsg("#empNameInput","error",result.msg);
 						$("#saveEmpBtn").attr("check_result","error");
 					}
 				}
