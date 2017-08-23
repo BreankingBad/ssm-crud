@@ -283,7 +283,7 @@
 				return false;
 			}else{
 				showCheckMsg("#empEmailInput","success","");
-			}
+			} 
 			
 			return true;
 		}
@@ -313,8 +313,19 @@
 					type:"POST",
 					data:$("#addEmpForm").serialize(),
 					success:function(result){
-						$("#addEmpModal").modal('hide');
-						toPage(9999999);
+						
+						if (result.code == 100) {
+							$("#addEmpModal").modal('hide');
+							toPage(9999999);	
+						}else {
+							if(undefined != result.data.error_msg.empName){
+								showCheckMsg("#empNameInput","error",result.data.error_msg.empName);
+							}
+							if(undefined != result.data.error_msg.email){
+								showCheckMsg("#empEmailInput","error",result.data.error_msg.email);
+							}
+						}
+						
 					}
 				});	 
 			}
@@ -335,7 +346,7 @@
 						$("#saveEmpBtn").attr("check_result","error");
 					}
 				}
-			});	 
+			});	  
 		});
 	</script>
 </body>

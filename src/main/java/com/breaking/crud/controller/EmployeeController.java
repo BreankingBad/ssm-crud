@@ -1,10 +1,18 @@
 package com.breaking.crud.controller;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.forwardedUrl;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -36,10 +44,18 @@ public class EmployeeController {
 	
 	@RequestMapping(value="/emp",method=RequestMethod.POST)
 	@ResponseBody
-	public ResponseBean getEmps(Employee employee) {
-		employeeService.saveEmployee(employee);;
-		
-		return ResponseBean.success();
+	public ResponseBean getEmps(@Valid Employee employee,BindingResult result) {
+		if(result.hasErrors()) {
+			Map<String, String> errorMap = new HashMap<>();
+			List<FieldError> fieldErrors = result.getFieldErrors();
+			for (FieldError fieldError : fieldErrors) {
+				errorMap.put(fieldError.getField(), fieldError.getDefaultMessage());
+			}
+			return ResponseBean.fail().setData("error_msg", errorMap);
+		}else {
+			employeeService.saveEmployee(employee);
+			return ResponseBean.success();
+		}
 	}
 	
 	@RequestMapping(value="/checkEmp",method=RequestMethod.POST)
