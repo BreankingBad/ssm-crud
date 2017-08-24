@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -44,7 +45,7 @@ public class EmployeeController {
 	
 	@RequestMapping(value="/emp",method=RequestMethod.POST)
 	@ResponseBody
-	public ResponseBean getEmps(@Valid Employee employee,BindingResult result) {
+	public ResponseBean saveEmp(@Valid Employee employee,BindingResult result) {
 		if(result.hasErrors()) {
 			Map<String, String> errorMap = new HashMap<>();
 			List<FieldError> fieldErrors = result.getFieldErrors();
@@ -56,6 +57,13 @@ public class EmployeeController {
 			employeeService.saveEmployee(employee);
 			return ResponseBean.success();
 		}
+	}
+	
+	@RequestMapping(value="/emp/{id}",method=RequestMethod.GET)
+	@ResponseBody
+	public ResponseBean getEmp(@PathVariable("id")Integer id) {
+		Employee employee = employeeService.getEmp(id);
+		return ResponseBean.success().setData("emp", employee);
 	}
 	
 	@RequestMapping(value="/checkEmp",method=RequestMethod.POST)

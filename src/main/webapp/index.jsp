@@ -34,8 +34,7 @@
 			  <div class="form-group">
 			    <label class="col-sm-2 control-label">员工名字</label>
 			    	<div class="col-sm-10">
-			      <input type="text" name="empName" class="form-control" id="updateEmpNameInput" placeholder="员工名字">
-			      <span class="help-block"></span>
+			      <p class="form-control-static" id="updateEmpNameLabel"></p>
 			    </div>
 			  </div>
 			  <div class="form-group">
@@ -209,6 +208,7 @@
 				
 				var editBtn = $("<button></button>").addClass("btn btn-success btn-sm edit-btn").
 				append($("<span></span>").addClass("glyphicon glyphicon-pencil")).append(" 编辑");
+				editBtn.attr("emp_id",item.empId);
 				var deleteBtn = $("<button></button>").addClass("btn btn-danger btn-sm delete-btn").
 				append($("<span></span>").addClass("glyphicon glyphicon-trash")).append(" 删除");
 				var btnTd = $("<td></td>").append(editBtn).append(" ").append(deleteBtn);
@@ -410,11 +410,32 @@
 			
 			getDepts("#updateDepartmentSelect");
 			
+			getEmp($(this).attr("emp_id"));
+			
 			$('#updateEmpModal').modal({
 				backdrop:'static'
 			});
 		}
 		);
+		
+		function getEmp(id) {
+			$.ajax({
+				url:"${APP_PATH}/emp/"+id,
+				type:"get",
+				success:function(result){
+					if(result.code == 100){
+						var employee = result.data.emp;
+						$("#updateEmpNameLabel").text(employee.empName);
+						$("#updateEmpEmailInput").val(employee.email);
+						$("#updateEmpForm input[name=gender]").val([employee.gender]);
+						$("#updateDepartmentSelect").val([employee.dId]);
+						
+					}else {
+						
+					}
+				}
+			});	  
+		}
 	</script>
 </body>
 </html>
