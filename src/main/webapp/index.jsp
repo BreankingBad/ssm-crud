@@ -450,8 +450,8 @@
 			if(checkEmailValid("#updateEmpEmailInput")){
 				$.ajax({
 					url:"${APP_PATH}/emp/"+$(this).attr("emp_id"),
-					type:"post",
-					data:$("#updateEmpForm").serialize()+"&_method=put",
+					type:"put",
+					data:$("#updateEmpForm").serialize(),
 					success:function(result){
 						if(result.code == 100){
 							$("#updateEmpModal").modal('hide');

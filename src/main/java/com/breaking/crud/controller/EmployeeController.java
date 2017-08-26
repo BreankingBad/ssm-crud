@@ -62,6 +62,7 @@ public class EmployeeController {
 	@RequestMapping(value="/emp/{empId}",method=RequestMethod.PUT)
 	@ResponseBody
 	public ResponseBean updateEmp(Employee employee) {
+		System.out.println(employee.toString());
 		employeeService.updateEmp(employee);
 		return ResponseBean.success();
 	}
