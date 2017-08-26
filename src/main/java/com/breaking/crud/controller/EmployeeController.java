@@ -67,6 +67,13 @@ public class EmployeeController {
 		return ResponseBean.success();
 	}
 	
+	@RequestMapping(value="/emp/{empId}",method=RequestMethod.DELETE)
+	@ResponseBody
+	public ResponseBean deleteEmp(@PathVariable("empId")Integer id) {
+		employeeService.deleteEmp(id);
+		return ResponseBean.success();
+	}
+	
 	@RequestMapping(value="/emp/{id}",method=RequestMethod.GET)
 	@ResponseBody
 	public ResponseBean getEmp(@PathVariable("id")Integer id) {

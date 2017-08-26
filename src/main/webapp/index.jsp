@@ -213,6 +213,9 @@
 				editBtn.attr("emp_id",item.empId);
 				var deleteBtn = $("<button></button>").addClass("btn btn-danger btn-sm delete-btn").
 				append($("<span></span>").addClass("glyphicon glyphicon-trash")).append(" 删除");
+				deleteBtn.attr("emp_id",item.empId);
+				deleteBtn.attr("emp_name",item.empName);
+				
 				var btnTd = $("<td></td>").append(editBtn).append(" ").append(deleteBtn);
 				$("<tr></tr>").append(empIdTd)
 							 .append(empNameTd)
@@ -430,6 +433,22 @@
 			});
 		}
 		);
+		
+		$(document).on("click",".delete-btn",function(){
+			if(confirm("你确定删除【"+$(this).attr("emp_name")+"】吗？")){
+				$.ajax({
+					url:"${APP_PATH}/emp/"+$(this).attr("emp_id"),
+					type:"delete",
+					success:function(result){
+						if(result.code == 100){
+							console.log("删除成功");
+							toPage(curPageNum);
+						}
+					}
+				})
+			};
+			
+		});
 		
 		function getEmp(id) {
 			$.ajax({

@@ -50,4 +50,8 @@ public class EmployeeService {
 		
 	}
 
+	public void deleteEmp(Integer id) {
+		employeeMapper.deleteByPrimaryKey(id);
+	}
+
 }
