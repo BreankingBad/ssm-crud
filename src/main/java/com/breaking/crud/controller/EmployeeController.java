@@ -2,6 +2,7 @@ package com.breaking.crud.controller;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.forwardedUrl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -67,10 +68,22 @@ public class EmployeeController {
 		return ResponseBean.success();
 	}
 	
-	@RequestMapping(value="/emp/{empId}",method=RequestMethod.DELETE)
+	@RequestMapping(value="/emp/{empIds}",method=RequestMethod.DELETE)
 	@ResponseBody
-	public ResponseBean deleteEmp(@PathVariable("empId")Integer id) {
-		employeeService.deleteEmp(id);
+	public ResponseBean deleteEmp(@PathVariable("empIds")String id) {
+		if(id.contains("-")) {
+			// 批量删除
+			String[] idStrings = id.split("-");
+			List<Integer> ids = new ArrayList<>();
+			for (String empId : idStrings) {
+				ids.add(Integer.valueOf(empId));
+			}
+			employeeService.deleteEmpList(ids);
+		}else {
+			// 删除单个
+			employeeService.deleteEmp(Integer.valueOf(id));
+		}
+		
 		return ResponseBean.success();
 	}
 	

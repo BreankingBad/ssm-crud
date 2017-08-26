@@ -53,5 +53,12 @@ public class EmployeeService {
 	public void deleteEmp(Integer id) {
 		employeeMapper.deleteByPrimaryKey(id);
 	}
+	
+	public void deleteEmpList(List<Integer> ids) {
+		EmployeeExample employeeExample = new EmployeeExample();
+		Criteria criteria = employeeExample.createCriteria();
+		criteria.andEmpIdIn(ids);
+		employeeMapper.deleteByExample(employeeExample);
+	}
 
 }

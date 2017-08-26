@@ -133,7 +133,7 @@
 	 <div class="row">
 	  	 <div class="col-md-4 col-md-offset-8">
 	  	 	<button class="btn btn-success" id="addEmpBtn">新增</button>
-	  	 	<button class="btn btn-danger">删除</button>
+	  	 	<button class="btn btn-danger" id="deleteEmpBtn">删除</button>
 	  	 </div>
 	 </div>
 	 
@@ -203,6 +203,9 @@
 			$.each(emps,function(index,item){
 				// alert(item.empName); 
 				var empCheckboxTd = $("<td></td>").append("<input type='checkbox' class='check_item'/>");
+				empCheckboxTd.attr("emp_id",item.empId);
+				empCheckboxTd.attr("emp_name",item.empName);
+				
 				var empIdTd = $("<td></td>").append(item.empId);
 				var empNameTd = $("<td></td>").append(item.empName);
 				var empGenderTd = $("<td></td>").append(item.gender=="M"?"男":"女");
@@ -498,6 +501,30 @@
 			
 			if($(".check_item").not("input:checked").length == $(".check_item").length){
 				$("#check_all").prop("checked",false);
+			}
+		});
+		
+		$("#deleteEmpBtn").click(function() {
+			var empNameStr = "";
+			var empIds = "";
+			$.each($(".check_item:checked"),function(){
+				empNameStr += $(this).parent().attr("emp_name") + ",";
+				empIds += $(this).parent().attr("emp_id") + "-";
+			});
+			empNameStr = empNameStr.substring(0,empNameStr.length-1);
+			empIds = empIds.substring(0,empIds.length-1);
+			
+			if(confirm("你确定删除 "+empNameStr+" 吗？")){
+				$.ajax({
+					url:"${APP_PATH}/emp/"+empIds,
+					type:"delete",
+					success:function(result){
+						if(result.code == 100){
+							console.log("批量删除成功");
+							toPage(curPageNum);
+						}
+					}
+				})
 			}
 		});
 	</script>
