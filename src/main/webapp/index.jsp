@@ -172,7 +172,9 @@
 
 	
 	<script type="text/javascript">
-	
+		
+		var curPageNum;
+		
 		// 页面加载后调用ajax请求得到json数据，根据json数据动态添加dom节点。
 		$(function() {
 			toPage(1);
@@ -229,6 +231,8 @@
 			$("#page_info_area").append("当前页:").append(result.data.pageInfo.pageNum).append(",")
 								.append("总页数:").append(result.data.pageInfo.pages).append(",")
 								.append("总记录数:").append(result.data.pageInfo.total);
+			
+			curPageNum = result.data.pageInfo.pageNum;
 		}
 		
 		function buildPageNum(result) {
@@ -455,6 +459,7 @@
 					success:function(result){
 						if(result.code == 100){
 							$("#updateEmpModal").modal('hide');
+							toPage(curPageNum);
 						}
 					}
 				});
