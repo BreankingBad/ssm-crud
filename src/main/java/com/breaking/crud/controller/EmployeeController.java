@@ -59,6 +59,13 @@ public class EmployeeController {
 		}
 	}
 	
+	@RequestMapping(value="/emp/{empId}",method=RequestMethod.PUT)
+	@ResponseBody
+	public ResponseBean updateEmp(Employee employee) {
+		employeeService.updateEmp(employee);
+		return ResponseBean.success();
+	}
+	
 	@RequestMapping(value="/emp/{id}",method=RequestMethod.GET)
 	@ResponseBody
 	public ResponseBean getEmp(@PathVariable("id")Integer id) {

@@ -331,16 +331,23 @@
 				showCheckMsg("#empNameInput","success","");
 			}
 			
-			var emailValue = $("#empEmailInput").val();
-			var emailReg = /^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/;
-			if(!emailReg.test(emailValue)){
-				showCheckMsg("#empEmailInput","error","邮箱不合法！");
+			if(!checkEmailValid("#empEmailInput")){
 				return false;
-			}else{
-				showCheckMsg("#empEmailInput","success","");
-			} 
+			}
 			
 			return true;
+		}
+		
+		function checkEmailValid(ele) {
+			var emailValue = $(ele).val();
+			var emailReg = /^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/;
+			if(!emailReg.test(emailValue)){
+				showCheckMsg(ele,"error","邮箱不合法！");
+				return false;
+			}else{
+				showCheckMsg(ele,"success","");
+				return true;
+			} 
 		}
 		
 		function showCheckMsg(ele,status,msg) {
@@ -412,6 +419,8 @@
 			
 			getEmp($(this).attr("emp_id"));
 			
+			$("#updateEmpBtn").attr("emp_id",$(this).attr("emp_id"));
+			
 			$('#updateEmpModal').modal({
 				backdrop:'static'
 			});
@@ -436,6 +445,21 @@
 				}
 			});	  
 		}
+		
+		$("#updateEmpBtn").click(function() {
+			if(checkEmailValid("#updateEmpEmailInput")){
+				$.ajax({
+					url:"${APP_PATH}/emp/"+$(this).attr("emp_id"),
+					type:"post",
+					data:$("#updateEmpForm").serialize()+"&_method=put",
+					success:function(result){
+						if(result.code == 100){
+							$("#updateEmpModal").modal('hide');
+						}
+					}
+				});
+			}
+		});
 	</script>
 </body>
 </html>
